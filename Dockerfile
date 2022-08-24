@@ -1,4 +1,4 @@
-FROM conda/miniconda3
+FROM python
 
 #RUN apt-get update && apt-get install -y build-essentials && apt-get install -y wget && apt-get clean 
 
