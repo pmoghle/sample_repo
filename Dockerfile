@@ -1,9 +1,6 @@
 FROM python:alpine3.7
 COPY . /app
+RUN pip3.7 install flask
 WORKDIR /app
-#RUN pip install -r requirements.txt
 EXPOSE 5001
-ENTRYPOINT [ "python" ]
-CMD [ "app.py" ]
-
-
+CMD ["python","app.py"]

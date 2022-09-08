@@ -1,0 +1,19 @@
+FROM python:alpine3.7
+COPY . /app
+RUN python3 -m venv /opt/venv
+RUN cd /app && chmod +x *
+#RUN pip install -r requirements.txt
+RUN pip freeze > requirements.txt
+WORKDIR /app
+RUN apk --update add --virtual scipy-runtime python py-pip \
+    && apk add --virtual scipy-build \
+        build-base python-dev openblas-dev freetype-dev pkgconfig gfortran lapack-dev \
+    && ln -s /usr/include/locale.h /usr/include/xlocale.h \
+    && pip install --no-cache-dir -U pip wheel setuptools \
+    && pip install --no-cache-dir requirements.txt \
+    && apk del scipy-build \
+    && apk add --virtual scipy-runtime \
+        freetype libgfortran libgcc libpng  libstdc++ musl openblas tcl tk \
+    && rm -rf /var/cache/apk/*
+EXPOSE 5001
+CMD ["python","app.py"]
